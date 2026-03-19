@@ -16,7 +16,7 @@ provider "aws" {
 
 # Call the VPC module with dev-specific values
 module "vpc" {
-  source      = "../../modules/vpc"
+  source      = "../../../modules/vpc"
   region      = "us-east-1"
   environment = "dev"
   vpc_cidr    = "10.10.0.0/16"

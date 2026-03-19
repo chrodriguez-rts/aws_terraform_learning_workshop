@@ -25,7 +25,7 @@ data "terraform_remote_state" "vpc" {
 }
 
 module "ec2" {
-  source      = "../../modules/ec2"
+  source      = "../../../modules/ec2"
   region      = "us-east-1"
   environment = "dev"
   ami = "ami-0c02fb55956c7d316"
