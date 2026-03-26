@@ -5,6 +5,12 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+     inputs:
+        pr_number:
+          description: 'Pull Request Number'
+          required: false
+          default: ''  
 
 permissions:
   id-token: write
