@@ -31,20 +31,6 @@ jobs:
         with:
           terraform_version: "1.14.5"
 
-      - name: Trigger VPC Workflow
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'terraform-vpc.yml',
-              ref: 'main',
-              inputs: {
-                pr_number: context.payload.pull_request.number.toString()
-              }
-            })     
 
       - name: Terraform Init
         run: terraform init
