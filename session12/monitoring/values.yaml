@@ -1,0 +1,28 @@
+prometheus:
+  retention: 15d
+  storageSpec:
+    volumeClaimTemplate:
+      storageClassName: gp2
+      resources:
+        requests:
+          storage: 10Gi
+
+grafana:
+  adminPassword: "changeme"
+  persistence:
+    enabled: true
+    storageClassName: gp2
+    size: 5Gi
+
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ["alertname", "namespace"]
+      receiver: "msteams"
+    receivers:
+    - name: "msteams"
+      webhook_configs:
+      - url: "http://prometheus-msteams:2000/alertmanager"
+        send_resolved: true
