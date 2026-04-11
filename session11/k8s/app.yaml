@@ -1,0 +1,43 @@
+# 1. Namespace — logical isolation boundary
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-app
+
+---
+# 2. Deployment — manages pod lifecycle
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  namespace: my-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app        
+    spec:
+      containers:
+      - name: app
+        image: 468278742450.dkr.ecr.us-east-1.amazonaws.com/app-dev:latest
+        ports:
+        - containerPort: 80
+
+---
+# 3. Service — stable endpoint in front of pods
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+  namespace: my-app
+spec:
+  selector:
+    app: my-app           
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP

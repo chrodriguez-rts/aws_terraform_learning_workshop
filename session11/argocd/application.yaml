@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-app
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/chrodriguez-rts/aws_terraform_learning_workshop
+    targetRevision: main
+    path: k8s/                    # watch this directory in Git
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app             # deploy into this namespace
+
+  syncPolicy:
+    automated:
+      prune: true                 # remove resources deleted from Git
+      selfHeal: true              # correct drift automatically
+    syncOptions:
+    - CreateNamespace=true        # create namespace if it doesn't exist

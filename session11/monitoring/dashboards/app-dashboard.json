@@ -1,0 +1,45 @@
+{
+  "title": "my-app Dashboard",
+  "panels": [
+    {
+      "title": "Request Rate",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "rate(http_requests_total[5m])",
+          "legendFormat": "requests/sec"
+        }
+      ]
+    },
+    {
+      "title": "Error Rate",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "rate(http_requests_total{status=~\"5..\"}[5m]) / rate(http_requests_total[5m])",
+          "legendFormat": "error rate"
+        }
+      ]
+    },
+    {
+      "title": "Response Time p99",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))",
+          "legendFormat": "p99"
+        }
+      ]
+    },
+    {
+      "title": "Pod Health",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "kube_pod_status_phase{namespace=\"my-app\"}",
+          "legendFormat": "{{ phase }}"
+        }
+      ]
+    }
+  ]
+}
